@@ -1,0 +1,44 @@
+env: "grid_maif"
+
+env_args:
+  'map_name': 'grid_maif'
+  
+  'FREE_SPACE': 0
+  'OBSTACLE': 1
+  
+  # 默认的环境设置
+  'default_env_setting': [8, 10]  # [num_agents, map_size]
+  
+  # 奖励函数配置
+  'reward_fn': 
+    'move': -0.075
+    'stay_on_goal': 1
+    'stay_off_goal': -0.075
+    'collision': -0.5
+    'reach_goal': 3
+    'formation_scale': 0.001  # 编队队形奖励的权重
+    'approach': 0.1
+  
+  # 动作映射
+  'action_mapping': 
+    0: [0, 0]    # stay
+    1: [-1, 0]   # up
+    2: [1, 0]    # down
+    3: [0, -1]   # left
+    4: [0, 1]    # right
+  
+  # 智能体观测半径
+  'obs_radius': 3
+  
+
+  'episode_limit': 500
+  
+  
+  # 环境障碍物密度
+  'obstacle_density': 0.0
+
+  # 是否使用预定义的场景
+  'use_predefined': true
+
+  # 预定义场景的路径
+  'benchmark_path': "src/envs/grid_maif/test_set/ms32_fs9_na10.pth"

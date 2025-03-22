@@ -1,0 +1,87 @@
+diff --git a/README.md b/README.md
+index 5df7de5..14c5ac1 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,4 @@
++
+ # Decentralized Control of Quadrotor Swarms with End-to-end Deep Reinforcement Learning
+ 
+ A codebase for training reinforcement learning policies for quadrotor swarms.
+diff --git a/gym_art/quadrotor_multi/quadrotor_multi.py b/gym_art/quadrotor_multi/quadrotor_multi.py
+index 3d0e760..fa366e4 100644
+--- a/gym_art/quadrotor_multi/quadrotor_multi.py
++++ b/gym_art/quadrotor_multi/quadrotor_multi.py
+@@ -720,7 +720,10 @@ class QuadrotorEnvMulti(gym.Env):
+             obs = self.reset()
+             # terminate the episode for all "sub-envs"
+             dones = [True] * len(dones)
+-
++            print(f"got obs {obs}")
++            print(f"got rewards {rewards}")
++            print(f"got dones {dones}")
++            print(f"got infos {infos}")
+         return obs, rewards, dones, infos
+ 
+     def render(self, verbose=False):
+diff --git a/gym_art/quadrotor_multi/tests/test_multi_env.py b/gym_art/quadrotor_multi/tests/test_multi_env.py
+index 7defe81..fc0fc8e 100644
+--- a/gym_art/quadrotor_multi/tests/test_multi_env.py
++++ b/gym_art/quadrotor_multi/tests/test_multi_env.py
+@@ -26,11 +26,11 @@ def create_env(num_agents, use_numba=False, use_replay_buffer=False, episode_dur
+         num_agents=num_agents,
+         dynamics_params=quad, raw_control=raw_control, raw_control_zero_middle=raw_control_zero_middle,
+         dynamics_randomize_every=dyn_randomize_every, dynamics_change=dynamics_change, dyn_sampler_1=sampler_1,
+-        sense_noise=sense_noise, init_random_state=True, ep_time=episode_duration, quads_use_numba=use_numba,
++        sense_noise=sense_noise, init_random_state=True, ep_time=episode_duration, use_numba=use_numba,
+         use_replay_buffer=use_replay_buffer,
+-        swarm_obs="pos_vel_goals_ndist_gdist",
+-        local_obs=local_obs,
+-    )
++        
++    )#swarm_obs="pos_vel_goals_ndist_gdist",
++        #local_obs=local_obs,
+     return env
+ 
+ 
+@@ -47,6 +47,10 @@ class TestMultiEnv(TestCase):
+ 
+         for i in range(100):
+             obs, rewards, dones, infos = env.step([env.action_space.sample() for i in range(num_agents)])
++            print(f"got obs {obs}")
++            print(f"got rewards {rewards}")
++            print(f"got dones {dones}")
++            print(f"got infos {infos}")
+             try:
+                 self.assertIsInstance(obs, list)
+             except:
+diff --git a/swarm_rl/env_wrappers/tests/test_quads.py b/swarm_rl/env_wrappers/tests/test_quads.py
+index b888c2b..37df02b 100644
+--- a/swarm_rl/env_wrappers/tests/test_quads.py
++++ b/swarm_rl/env_wrappers/tests/test_quads.py
+@@ -6,18 +6,23 @@ from sample_factory.utils.timing import Timing
+ from sample_factory.utils.utils import log, is_module_available
+ 
+ from swarm_rl.train import register_swarm_components, parse_swarm_cfg
+-
++from swarm_rl.env_wrappers.quad_utils import make_quadrotor_env_multi
+ 
+ def numba_available():
+     return is_module_available('numba')
+ 
+ 
+ def run_multi_quadrotor_env(env_name, cfg):
+-    env = create_env(env_name, cfg=cfg)
++    #env = create_env(env_name, cfg=cfg)
++    env = make_quadrotor_env_multi(cfg=cfg)
+     env.reset()
+     for i in range(100):
+         obs, r, term, trunc, info = env.step([env.action_space.sample() for _ in range(env.num_agents)])
+-
++        print(f"got obs {obs}")
++        print(f"got r {r}")
++        print(f"got term {term}")
++        print(f"got trunc {trunc}")
++        print(f"got info {info}")
+     n_frames = 1000
+     env = create_env(env_name, cfg=cfg)
+     env.reset()

@@ -1,0 +1,35 @@
+# --- IPPO specific parameters ---
+
+action_selector: "gaussian"
+
+runner: "parallel"
+mac: "continuous_ppo_mac" # Basic controller
+agent: 'gauss'
+
+buffer_size: 4000
+batch_size_run: 100
+batch_size: 64
+
+# update the target network every {} training steps
+target_update_interval_or_tau: 0.01
+
+lr: 0.0003
+hidden_dim: 256
+
+obs_agent_id: True
+obs_last_action: False
+obs_individual_obs: False
+
+# use IA2C
+learner: "continuous_ppo_learner"
+entropy_coef: 0.001
+standardise_returns: False
+standardise_rewards: True
+use_rnn: True
+q_nstep: 5 # 1 corresponds to normal r + gammaV
+critic_type: "ac_critic"
+epochs: 4
+eps_clip: 0.2
+name: "ippo_continuous"
+
+t_max: 80050000

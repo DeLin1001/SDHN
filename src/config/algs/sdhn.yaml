@@ -1,0 +1,45 @@
+# --- SAHN specific parameters ---
+
+action_selector: "soft_policies"
+mask_before_softmax: True
+
+runner: "parallel"
+
+buffer_size: 32
+batch_size_run: 32
+batch_size: 32  #batch_size*n_hyper_edges*n_agents should be viewed as [batch,n_hyper_edges,n_agents]
+
+# update the target network every {} training steps
+target_update_interval_or_tau: 0.01
+
+lr: 0.0006
+hidden_dim: 64
+
+obs_agent_id: True
+obs_last_action: False
+obs_individual_obs: False
+
+agent_output_type: "pi_logits"
+learner: "discrete_ppo_learner_hg"
+entropy_coef: 0.1
+use_rnn: True
+standardise_returns: False
+standardise_rewards: True
+q_nstep: 5 # 1 corresponds to normal r + gammaV
+critic_type: "cv_critic_hg"
+epochs: 4
+eps_clip: 0.2
+name: "SAHN"
+
+t_max: 10050000
+
+
+# HGCN 参数++
+hgcn_embedding_dim: 5  # HGCN 嵌入的维度
+n_hyper_edges: 10  # 超边数量
+hgcn_use_dynamic_graph: True  # 是否动态生成超图
+hg_generate_type: "bernoulli"  # 超图生成方式：bernoulli 或 certain
+graph_update_interval: 10  # 动态超图的更新间隔
+hgcn_input_shape: 2
+concate_gcn: True
+target_skewness: -0.5

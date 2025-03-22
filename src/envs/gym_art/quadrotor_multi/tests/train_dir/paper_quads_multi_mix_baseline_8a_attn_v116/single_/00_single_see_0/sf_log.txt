@@ -1,0 +1,105 @@
+[2024-10-07 15:11:49,116][04242] Saving configuration to ./train_dir/paper_quads_multi_mix_baseline_8a_attn_v116/single_/00_single_see_0/config.json...
+[2024-10-07 15:11:49,903][04242] Rollout worker 0 uses device cpu
+[2024-10-07 15:11:49,904][04242] Rollout worker 1 uses device cpu
+[2024-10-07 15:11:49,968][04242] Using GPUs [0] for process 0 (actually maps to GPUs [0])
+[2024-10-07 15:11:49,968][04242] InferenceWorker_p0-w0: min num requests: 1
+[2024-10-07 15:11:49,980][04242] Starting all processes...
+[2024-10-07 15:11:49,980][04242] Starting process learner_proc0
+[2024-10-07 15:11:51,009][04242] Starting all processes...
+[2024-10-07 15:11:51,015][04242] Starting process inference_proc0-0
+[2024-10-07 15:11:51,016][04242] Starting process rollout_proc0
+[2024-10-07 15:11:51,016][04242] Starting process rollout_proc1
+[2024-10-07 15:12:21,303][04266] Worker 1 uses CPU cores [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+[2024-10-07 15:12:22,902][04257] Using GPUs [0] for process 0 (actually maps to GPUs [0])
+[2024-10-07 15:12:22,903][04257] Set environment var CUDA_VISIBLE_DEVICES to '0' (GPU indices [0]) for learning process 0
+[2024-10-07 15:12:23,002][04264] Using GPUs [0] for process 0 (actually maps to GPUs [0])
+[2024-10-07 15:12:23,003][04264] Set environment var CUDA_VISIBLE_DEVICES to '0' (GPU indices [0]) for inference process 0
+[2024-10-07 15:12:23,003][04257] Num visible devices: 0
+[2024-10-07 15:12:23,003][04264] Num visible devices: 0
+[2024-10-07 15:12:23,106][04265] Worker 0 uses CPU cores [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+[2024-10-07 15:12:29,804][04257] WARNING! It is generally recommended to enable Fixed KL loss (https://arxiv.org/pdf/1707.06347.pdf) for continuous action tasks to avoid potential numerical issues. I.e. set --kl_loss_coeff=0.1
+[2024-10-07 15:12:29,804][04257] Setting fixed seed 0
+[2024-10-07 15:12:29,902][04242] Heartbeat connected on Batcher_0
+[2024-10-07 15:12:29,904][04257] Using GPUs [0] for process 0 (actually maps to GPUs [0])
+[2024-10-07 15:12:29,904][04257] Initializing actor-critic model on device cuda:0
+[2024-10-07 15:12:30,102][04242] Heartbeat connected on RolloutWorker_w1
+[2024-10-07 15:12:30,303][04242] Heartbeat connected on InferenceWorker_p0-w0
+[2024-10-07 15:12:31,509][04242] Heartbeat connected on RolloutWorker_w0
+[2024-10-07 15:12:31,518][04257] Created Actor Critic model with architecture:
+[2024-10-07 15:12:31,518][04257] ActorCriticSeparateWeights(
+  (obs_normalizer): ObservationNormalizer()
+  (actor_encoder): QuadMultiEncoder(
+    (self_encoder): Sequential(
+      (0): Linear(in_features=18, out_features=256, bias=True)
+      (1): Tanh()
+      (2): Linear(in_features=256, out_features=256, bias=True)
+      (3): Tanh()
+    )
+    (feed_forward): Sequential(
+      (0): Linear(in_features=256, out_features=512, bias=True)
+      (1): Tanh()
+    )
+  )
+  (actor_core): ModelCoreIdentity()
+  (critic_encoder): QuadMultiEncoder(
+    (self_encoder): Sequential(
+      (0): Linear(in_features=18, out_features=256, bias=True)
+      (1): Tanh()
+      (2): Linear(in_features=256, out_features=256, bias=True)
+      (3): Tanh()
+    )
+    (feed_forward): Sequential(
+      (0): Linear(in_features=256, out_features=512, bias=True)
+      (1): Tanh()
+    )
+  )
+  (critic_core): ModelCoreIdentity()
+  (actor_decoder): MlpDecoder(
+    (mlp): Identity()
+  )
+  (critic_decoder): MlpDecoder(
+    (mlp): Identity()
+  )
+  (critic_linear): Linear(in_features=512, out_features=1, bias=True)
+  (action_parameterization): ActionParameterizationContinuousNonAdaptiveStddev(
+    (distribution_linear): Linear(in_features=512, out_features=4, bias=True)
+  )
+)
+[2024-10-07 15:12:31,528][04257] EvtLoop [learner_proc0_evt_loop, process=learner_proc0] unhandled exception in slot='init' connected to emitter=Emitter(object_id='Runner_EvtLoop', signal_name='start'), args=()
+Traceback (most recent call last):
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/signal_slot/signal_slot.py", line 355, in _process_signal
+    slot_callable(*args)
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/sample_factory/algo/learning/learner_worker.py", line 139, in init
+    init_model_data = self.learner.init()
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/sample_factory/algo/learning/learner.py", line 215, in init
+    self.actor_critic.model_to_device(self.device)
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/sample_factory/model/actor_critic.py", line 58, in model_to_device
+    module.model_to_device(device)
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/sample_factory/model/encoder.py", line 24, in model_to_device
+    self.to(device)
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1174, in to
+    return self._apply(convert)
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/torch/nn/modules/module.py", line 780, in _apply
+    module._apply(fn)
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/torch/nn/modules/module.py", line 780, in _apply
+    module._apply(fn)
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/torch/nn/modules/module.py", line 805, in _apply
+    param_applied = fn(param)
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1160, in convert
+    return t.to(
+  File "/root/miniconda3/envs/swarm-rl/lib/python3.8/site-packages/torch/cuda/__init__.py", line 314, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: Found no NVIDIA driver on your system. Please check that you have an NVIDIA GPU and installed a driver from http://www.nvidia.com/Download/index.aspx
+[2024-10-07 15:12:31,604][04257] Unhandled exception Found no NVIDIA driver on your system. Please check that you have an NVIDIA GPU and installed a driver from http://www.nvidia.com/Download/index.aspx in evt loop learner_proc0_evt_loop
+[2024-10-07 15:12:48,030][04242] Keyboard interrupt detected in the event loop EvtLoop [Runner_EvtLoop, process=main process 4242], exiting...
+[2024-10-07 15:12:48,030][04242] Runner profile tree view:
+main_loop: 58.0508
+[2024-10-07 15:12:48,031][04242] Collected {}, FPS: 0.0
+[2024-10-07 15:12:48,031][04265] Stopping RolloutWorker_w0...
+[2024-10-07 15:12:48,031][04264] Stopping InferenceWorker_p0-w0...
+[2024-10-07 15:12:48,031][04266] Stopping RolloutWorker_w1...
+[2024-10-07 15:12:48,031][04257] Stopping Batcher_0...
+[2024-10-07 15:12:48,031][04265] Loop rollout_proc0_evt_loop terminating...
+[2024-10-07 15:12:48,031][04264] Loop inference_proc0-0_evt_loop terminating...
+[2024-10-07 15:12:48,031][04266] Loop rollout_proc1_evt_loop terminating...
+[2024-10-07 15:12:48,031][04257] Loop batcher_evt_loop terminating...

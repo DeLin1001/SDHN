@@ -1,0 +1,35 @@
+# --- DICG specific parameters ---
+name: "dicg"
+is_masssge: True
+
+# use epsilon greedy action selector
+action_selector: "epsilon_greedy"
+epsilon_start: 1.0
+epsilon_finish: 0.05
+epsilon_anneal_time: 500000
+
+runner: "cg_episode"
+
+buffer_size: 5000
+
+# update the target network every {} episodes
+target_update_interval: 200
+
+# DICG graph
+train_graph: False
+dicg_emb_hid: 128
+number_gcn_layers: 2
+residual: True
+
+
+# use the Q_Learner to train / QMIX as baseline
+agent_output_type: "q"
+learner: "discrete_q_learner"
+mac: "discrete_dicg_mac"    
+double_q: True
+mixer: "qmix"
+mixing_embed_dim: 32
+hypernet_layers: 2
+hypernet_embed: 64
+
+

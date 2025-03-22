@@ -1,0 +1,35 @@
+env: "quadrotor_multi"
+
+env_args:
+  'map_name': 'fly_single'
+  'num_agents': 1
+  'ep_time': 1000
+  'rew_coeff': {'pos': 5,'time': 0, 'effort': 0.01,'crash': 15,'spin': 0,'orient': 0,'quadcol_bin': 0, 'quadcol_bin_smooth_max': 0, 'quadcol_bin_obst': 0 ,'attitude': 0.0}
+  'obs_repr': 'xyz_vxyz_R_omega_goal'
+  'neighbor_visible_num': -1
+  'neighbor_obs_type': 'pos_vel'
+  'collision_hitbox_radius': 1.0
+  'collision_falloff_radius': 1.2
+  'use_obstacles': false  # 使用小写的 true/false，不加引号
+  'obst_density': 0.0
+  'obst_size': [0.15, 0.15, 0.75]
+  'obst_spawn_area': [5.0, 5.0]
+  'use_downwash': false
+  'use_numba': true
+  'quads_mode': 'static_same_goal'
+  'room_dims': [50.0, 50.0, 50.0]
+  'use_replay_buffer': false
+  'quads_view_mode': ['chase'] #topdown, global, chase, side, corner0, corner1, corner2, corner3, topdownfollow
+  'render': false
+  'dynamics_params': 'Crazyflie'
+  'control_input': 'pos'
+  'if_discrete': true
+  'action_zero_middle': true
+  'dynamics_randomize_every': null
+  'dynamics_change': {'noise': {'thrust_noise_ratio': 0.00},'damp': {'vel': 0, 'omega_quadratic': 0}}
+  'dyn_sampler_1': null
+  'sense_noise': 'default'
+  'init_random_state': true
+  'render_mode': 'human'
+  'normalise_actions': true
+  'sim_freq': 50
