@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Implementation code for the IROS 2025 submission "SDHN: Skewness-Driven Hypergraph Networks for Enhanced Localized Multi-Robot Coordination".
+Implementation code for the IROS 2025 submission "SDHN: Skewness-Driven Hypergraph Networks for Enhanced Localized Multi-Robot Coordination".The codebase is based on [epymarl](https://github.com/uoe-agents/epymarl)
 
 ## Abstract
 Multi-Agent Reinforcement Learning is widely
