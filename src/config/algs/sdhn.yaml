@@ -34,12 +34,12 @@ name: "SAHN"
 t_max: 10050000
 
 
-# HGCN 参数++
-hgcn_embedding_dim: 5  # HGCN 嵌入的维度
-n_hyper_edges: 10  # 超边数量
-hgcn_use_dynamic_graph: True  # 是否动态生成超图
-hg_generate_type: "bernoulli"  # 超图生成方式：bernoulli 或 certain
-graph_update_interval: 10  # 动态超图的更新间隔
+
+hgcn_embedding_dim: 5  
+n_hyper_edges: 10  
+hgcn_use_dynamic_graph: True  
+hg_generate_type: "bernoulli"  
+graph_update_interval: 10  
 hgcn_input_shape: 2
 concate_gcn: True
 target_skewness: -0.5

@@ -3,7 +3,7 @@
 import torch as th
 import torch.nn as nn
 import torch.nn.functional as F
-from components.HGCN_util import HGCN_EMBEDDING  # 修改部分：引入 HGCN_EMBEDDING 模块
+from components.HGCN_util import HGCN_EMBEDDING  
 
 class CentralVCriticHg(nn.Module):
     def __init__(self, scheme, args):
@@ -12,16 +12,16 @@ class CentralVCriticHg(nn.Module):
         self.args = args
         self.n_actions = args.n_actions
         self.n_agents = args.n_agents
-        self.n_hyper_edges = args.n_hyper_edges  # 超图的超边数量
+        self.n_hyper_edges = args.n_hyper_edges  
 
         org_input_shape = self._get_input_shape(scheme)
         self.hgcn_input_shape = args.hgcn_input_shape #every single agent
         self.output_type = "v"
 
 
-        # 引入 HGCN 模块
+        
         self.hgcn_embedding = HGCN_EMBEDDING(
-            in_feature_dim=self.hgcn_input_shape,  # 假设每个智能体只使用部分观测输入超图
+            in_feature_dim=self.hgcn_input_shape,  
             embedding_dim=args.hgcn_embedding_dim,
             n_hyper_edges=args.n_hyper_edges,
             n_agents=self.n_agents,
@@ -41,8 +41,7 @@ class CentralVCriticHg(nn.Module):
 
         
 
-        # 初始化 HGCN 的隐藏状态
-        # 初始化 HGCN_EMBEDDING 的隐藏状态
+       
         
         self.hgcn_hidden = None
         self.last_hyper_graph = None
@@ -50,24 +49,24 @@ class CentralVCriticHg(nn.Module):
     def forward(self, batch, t=None):
         inputs, bs, max_t = self._build_inputs(batch, t=t) #[batch_size,t,n_agents,input_shape]
 
-        # 获取批量大小
+        
         batch_size = inputs.size(0)
         hgcn_embedding=[]
         hyper_graphs=[]
         for t in range(batch.max_seq_length):
-            hgcn_input = batch["obs"][:, t].view(batch_size, self.n_agents, -1)[:, :, :self.hgcn_input_shape]  # 假设观测的前2维用于超图
+            hgcn_input = batch["obs"][:, t].view(batch_size, self.n_agents, -1)[:, :, :self.hgcn_input_shape]  
             hgcn_embedding_t, self.hgcn_hidden, current_hyper_graph = self.hgcn_embedding(
                 hgcn_input, self.hgcn_hidden
                 )
             hgcn_embedding.append(hgcn_embedding_t)
             hyper_graphs.append(current_hyper_graph)  # [batch_size, n_agents, n_hyper_edges]
         hgcn_embedding=th.stack(hgcn_embedding, dim=1)
-        # HGCN 嵌入生成
+        
         
         
 
         if self.args.concate_gcn:
-            # 拼接 HGCN 嵌入
+            
             inputs = th.cat([inputs, hgcn_embedding], dim=-1)
         else:
             inputs = hgcn_embedding.view(batch_size, -1)
@@ -78,11 +77,7 @@ class CentralVCriticHg(nn.Module):
         return q, hyper_graphs #hyper_graphs:list,max_seq_length*[batch_size, n_agents, n_hyper_edges]
 
     def init_hidden(self, batch_size):
-        """
-        初始化隐藏状态
-        :param batch_size: 批量大小。
-        """
-        # 初始化 HGCN_EMBEDDING 的隐藏状态
+        
         self.hgcn_hidden = self.hgcn_embedding.init_hidden().unsqueeze(0).expand(batch_size,  -1)  # 新增
 
 

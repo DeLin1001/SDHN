@@ -228,17 +228,17 @@ class PPOLearner_hg:
     
 
     def cal_skewness_loss(self,batch,hyper_graphs):
-        #计算 skewness_loss - 每隔 args.graph_update_interval 步才计算一次
+        
         skewness_loss_sum = 0.0
         calc_count = 0
 
-        # 遍历时间步
+        
         for t in range(batch.max_seq_length):
-            # 只在满足 graph_update_interval 的时刻计算 skewness
+           
             if t % self.args.graph_update_interval == 0:
                 H_t = hyper_graphs[t]  # [batch_size, n_agents, n_hyper_edges]
 
-                # 计算超边大小 S_j = sum_i H_{ij}
+                
                 S_t = th.sum(H_t, dim=1)  # [batch_size, n_hyper_edges]
                 M = S_t.size(1)
 
@@ -252,14 +252,14 @@ class PPOLearner_hg:
                 # Sigmoid -> [-1, 1]
                 skewness_sig_t = 2.0 * th.sigmoid(skewness_t) - 1.0
 
-                # 与目标做差
+                
                 target_skew = self.args.target_skewness
                 skewness_loss_t = th.mean((skewness_sig_t - target_skew) ** 2)
 
                 skewness_loss_sum += skewness_loss_t
                 calc_count += 1
 
-        # 若本条序列内没有任何时间步满足 graph_update_interval，也可以做个保护
+        
         if calc_count > 0:
             skewness_loss_final = skewness_loss_sum / calc_count
         else:
